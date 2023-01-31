@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model aerobicsExercises {
+  id        Int       @id @default(autoincrement())
+  name      String
+  userId    Int?
+  date      DateTime  @db.Date
+  time      Int?
+  calories  Int?
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model foods {
+  id           Int           @id @default(autoincrement())
+  name         String
+  quantity     Int?
+  calories     Int?
+  protein      Int?
+  lipid        Int?
+  carbohydrate Int?
+  createdAt    DateTime?     @default(now()) @db.Timestamp(6)
+  foods_meals  foods_meals[]
+}
+
+model foods_meals {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  foodId    Int?
+  mealId    Int?
+  date      DateTime  @db.Date
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  foods     foods?    @relation(fields: [foodId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  meals     meals?    @relation(fields: [mealId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model meals {
+  id          Int           @id @default(autoincrement())
+  name        String
+  date        DateTime      @db.Date
+  userId      Int?
+  createdAt   DateTime?     @default(now()) @db.Timestamp(6)
+  foods_meals foods_meals[]
+  users       users?        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sessions {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  token     String    @unique
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  email             String              @unique
+  password          String
+  createdAt         DateTime?           @default(now()) @db.Timestamp(6)
+  updatedAt         DateTime?           @default(now()) @db.Timestamp(6)
+  aerobicsExercises aerobicsExercises[]
+  foods_meals       foods_meals[]
+  meals             meals[]
+  sessions          sessions[]
+  waterCount        waterCount[]
+  workoutExercises  workoutExercises[]
+  workouts          workouts[]
+}
+
+model waterCount {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  date      DateTime  @db.Date
+  quantity  Int?
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workoutExercises {
+  id              Int       @id @default(autoincrement())
+  name            String
+  series          Int?
+  reps            Int?
+  weight_current  Int?
+  weight_previous Int?
+  workoutId       Int?
+  userId          Int?
+  createdAt       DateTime? @default(now()) @db.Timestamp(6)
+  users           users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workouts        workouts? @relation(fields: [workoutId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model workouts {
+  id               Int                @id @default(autoincrement())
+  name             String
+  userId           Int?
+  createdAt        DateTime?          @default(now()) @db.Timestamp(6)
+  workoutExercises workoutExercises[]
+  users            users?             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
