@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
 import httpStatus from "http-status";
-import authSchema from "../schemas/auth-schemas";
+import authSchema from "../schemas/auth-schemas.js";
 import { Request, Response } from "express";
 
 function validateSingUp(req: Request,res: Response, next) {
