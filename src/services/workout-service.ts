@@ -19,9 +19,16 @@ async function getUserWorkouts(userId: number) {
     return workouts;
 }
 
+async function createWorkout(name: string, userId: number) {
+    const workout = await workoutsRepository.createWorkout(name, userId);
+
+    return workout
+};
+
 const workoutsServices = {
     getWorkouts,
     getUserWorkouts,
+    createWorkout,
 };
 
 export default workoutsServices;

@@ -6,7 +6,7 @@ import { AuthenticatedRequest } from "../middlewares/validate-token.js";
 export async function getWorkouts(req: Request, res: Response) {
     try {
         const workouts = await workoutsServices.getWorkouts();
-        res.status(httpStatus.OK).send(workouts);
+        return res.status(httpStatus.OK).send(workouts);
     } catch (error) {
         if (error.name === "NotFoundError") {
             return res.sendStatus(httpStatus.NOT_FOUND);
@@ -20,11 +20,23 @@ export async function getUserWorkouts(req: AuthenticatedRequest, res: Response) 
         const { userId } = req;
 
         const workouts = await workoutsServices.getUserWorkouts(userId);
-        res.status(httpStatus.OK).send(workouts);
+        return res.status(httpStatus.OK).send(workouts);
     } catch (error) {
         if (error.name === "NotFoundError") {
             return res.sendStatus(httpStatus.NOT_FOUND);
           }
         return res.sendStatus(httpStatus.BAD_REQUEST);
     };    
+};
+
+export async function postWorkout(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { name } = req.body;
+
+        const workout = await workoutsServices.createWorkout(name, userId);
+        return res.status(httpStatus.CREATED).send(workout);
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
 };
