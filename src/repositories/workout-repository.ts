@@ -19,6 +19,14 @@ async function getUserWorkouts(userId: number) {
     });
 };
 
+async function getWorkoutById(id: number){
+    return await prisma.workouts.findFirst({
+        where: {
+            id,
+        },
+    });
+};
+
 async function createWorkout(name: string, userId: number) {
     return await prisma.workouts.create({
         data: {
@@ -28,10 +36,28 @@ async function createWorkout(name: string, userId: number) {
     });    
 };
 
+async function deleteWorkout(workoutId: number) {
+    const workoutExercises = prisma.workoutExercises.deleteMany({
+        where: {
+            workoutId,
+        },
+    });
+
+    const workout = prisma.workouts.delete({
+        where: {
+            id: workoutId,
+        },
+    });
+
+    return prisma.$transaction([workoutExercises,workout]);
+};
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
-    createWorkout
+    getWorkoutById,
+    createWorkout,
+    deleteWorkout,
 };
 
 export default workoutsRepository;

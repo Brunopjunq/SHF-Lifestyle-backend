@@ -1,4 +1,4 @@
-import { notFoundError } from '../errors/index.js'
+import { notFoundError, unauthorizedError } from '../errors/index.js'
 import workoutsRepository from "../repositories/workout-repository.js";
 
 async function getWorkouts() {
@@ -25,10 +25,27 @@ async function createWorkout(name: string, userId: number) {
     return workout
 };
 
+async function deleteWorkout(workoutId: number, userId: number) {
+    const workout = await workoutsRepository.getWorkoutById(workoutId);
+
+    if(!workout) {
+        throw notFoundError();
+    }
+
+    if(userId !== workout.userId) {
+        throw unauthorizedError();
+    }
+
+    const deleteworkout = await workoutsRepository.deleteWorkout(workoutId);
+    
+    return deleteworkout;
+}
+
 const workoutsServices = {
     getWorkouts,
     getUserWorkouts,
     createWorkout,
+    deleteWorkout,
 };
 
 export default workoutsServices;
