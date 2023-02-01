@@ -28,6 +28,14 @@ async function getWorkoutById(id: number){
     });
 };
 
+async function getWorkoutExerciseById(id: number) {
+    return await prisma.workoutExercises.findFirst({
+        where: {
+            id,
+        },
+    })    
+};
+
 async function createWorkout(name: string, userId: number) {
     return await prisma.workouts.create({
         data: {
@@ -78,15 +86,41 @@ async function createWorkoutExercise(data: Prisma.workoutExercisesUncheckedCreat
     });    
 };
 
+async function updateWorkoutExercise(data: Prisma.workoutExercisesUncheckedCreateInput, exerciseId: number) {
+    const exercise = await prisma.workoutExercises.findFirst({
+        where: {
+            id: exerciseId,
+        },
+    });
+    
+    const updateWeight = prisma.workoutExercises.update({
+        where: {
+            id: exerciseId,
+        }, data: {
+            weight_previous: exercise.weight_current
+        },
+    });
+    
+    const updateExercise = prisma.workoutExercises.update({
+        where: {
+            id: exerciseId,
+        }, data
+    });
+
+    return prisma.$transaction([updateWeight, updateExercise]);
+}
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
     getWorkoutById,
+    getWorkoutExerciseById,
     createWorkout,
     deleteWorkout,
     updateWorkout,
     getUserWorkoutsExercisesById,
-    createWorkoutExercise
+    createWorkoutExercise,
+    updateWorkoutExercise,
 };
 
 export default workoutsRepository;

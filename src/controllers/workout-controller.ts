@@ -117,3 +117,24 @@ export async function postWorkoutExercise(req: AuthenticatedRequest, res: Respon
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 };
+
+export async function updateWorkoutExercise(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { name, series, reps, weight_current} = req.body;
+        const { userId } = req;
+        const { exerciseId } = req.params;
+        const numExerciseId = Number(exerciseId)
+
+        const workoutExercise = await workoutsServices.updateWorkoutExercise({name,series,reps,weight_current}, numExerciseId, userId);
+        return res.status(httpStatus.OK).send(workoutExercise[1]);
+    } catch (error) {
+        if (error.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND);
+        }
+        if (error.name === "UnauthorizedError") {
+            return res.sendStatus(httpStatus.UNAUTHORIZED);
+        }
+
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
+    }    
+}

@@ -82,7 +82,25 @@ async function createWorkoutExercise(data: createWorkoutExerciseParams) {
     return workoutExercise;
 }
 
+async function updateWorkoutExercise(data: updateWorkoutExerciseParams, exerciseId: number, userId: number) {
+    const exercise = await workoutsRepository.getWorkoutExerciseById(exerciseId);
+
+    if(!exercise) {
+        throw notFoundError();
+    }
+
+    if(userId !== exercise.userId) {
+        throw unauthorizedError();
+    }
+    
+    const workoutExercise = await workoutsRepository.updateWorkoutExercise(data, exerciseId);
+
+    return workoutExercise;
+}
+
 export type createWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "userId" | "weight_current" | "weight_previous" | "workoutId" >;
+
+export type updateWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "weight_current" >;
 
 const workoutsServices = {
     getWorkouts,
@@ -92,6 +110,7 @@ const workoutsServices = {
     updateWorkout,
     getUserWorkoutsExercisesById,
     createWorkoutExercise,
+    updateWorkoutExercise,
 };
 
 export default workoutsServices;

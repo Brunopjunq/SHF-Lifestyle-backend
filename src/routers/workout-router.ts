@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteWorkout, getUserWorkouts, getUserWorkoutsExercise, getWorkouts, postWorkout, postWorkoutExercise, updateWorkout } from "../controllers/workout-controller.js";
+import { deleteWorkout, getUserWorkouts, getUserWorkoutsExercise, getWorkouts, postWorkout, postWorkoutExercise, updateWorkout, updateWorkoutExercise } from "../controllers/workout-controller.js";
 import { validateToken } from "../middlewares/validate-token.js";
 import workoutsValidation from "../middlewares/validate-workouts.js";
 
@@ -12,6 +12,7 @@ workoutRouter.all("/*", validateToken)
 .delete("/:workoutId", deleteWorkout)
 .put("/:workoutId", updateWorkout)
 .get("/:workoutId", getUserWorkoutsExercise)
-.post("/:workoutId", postWorkoutExercise);
+.post("/:workoutId", postWorkoutExercise)
+.put("/exercise/:exerciseId", updateWorkoutExercise);
 
 export default workoutRouter;
