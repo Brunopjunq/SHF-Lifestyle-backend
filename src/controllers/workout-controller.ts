@@ -43,10 +43,11 @@ export async function postWorkout(req: AuthenticatedRequest, res: Response) {
 
 export async function deleteWorkout(req: AuthenticatedRequest, res: Response) {
     try {
-        const { workoutId } = req.body;
+        const { workoutId } = req.params;
         const { userId } = req;
+        const numWorkoutId = Number(workoutId)
 
-        const workout = await workoutsServices.deleteWorkout(workoutId,userId);
+        const workout = await workoutsServices.deleteWorkout(numWorkoutId,userId);
         return res.status(httpStatus.OK).send(workout)
     } catch (error) {
         if (error.name === "NotFoundError") {
@@ -62,10 +63,12 @@ export async function deleteWorkout(req: AuthenticatedRequest, res: Response) {
 
 export async function updateWorkout(req: AuthenticatedRequest, res: Response) {
     try {
-        const { workoutId, name } = req.body;
+        const { name } = req.body;
+        const { workoutId } = req.params;
         const { userId } = req;
+        const numWorkoutId = Number(workoutId);
 
-        const workout = await workoutsServices.updateWorkout(workoutId,name,userId);
+        const workout = await workoutsServices.updateWorkout(numWorkoutId,name,userId);
         return res.status(httpStatus.OK).send(workout);
     } catch (error) {
         if (error.name === "NotFoundError") {
@@ -75,6 +78,27 @@ export async function updateWorkout(req: AuthenticatedRequest, res: Response) {
             return res.sendStatus(httpStatus.UNAUTHORIZED);
         }
 
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
+    }    
+}
+
+export async function getUserWorkoutsExercise(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { workoutId } = req.params;
+        const numWorkoutId = Number(workoutId);
+
+        const workoutExercises = await workoutsServices.getUserWorkoutsExercisesById(numWorkoutId, userId);
+        return res.status(httpStatus.OK).send(workoutExercises);
+
+    } catch (error) {
+        if (error.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND);
+        }
+        if (error.name === "UnauthorizedError") {
+            return res.sendStatus(httpStatus.UNAUTHORIZED);
+        }
+        
         return res.sendStatus(httpStatus.BAD_REQUEST); 
     }    
 }

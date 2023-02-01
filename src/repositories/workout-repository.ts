@@ -62,6 +62,15 @@ async function updateWorkout(workoutId: number, name: string) {
     });
 };
 
+async function getUserWorkoutsExercisesById(workoutId: number, userId: number) {
+    return prisma.workoutExercises.findMany({
+        where: {
+            userId,
+            workoutId
+        },
+    });
+};
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
@@ -69,6 +78,7 @@ const workoutsRepository = {
     createWorkout,
     deleteWorkout,
     updateWorkout,
+    getUserWorkoutsExercisesById
 };
 
 export default workoutsRepository;

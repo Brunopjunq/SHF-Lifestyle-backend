@@ -56,12 +56,32 @@ async function updateWorkout(workoutId: number, name: string, userId: number) {
     return updatedWorkout;
 }
 
+async function getUserWorkoutsExercisesById(workoutId: number, userId: number) {
+    const workoutExercises = await workoutsRepository.getUserWorkoutsExercisesById(workoutId, userId);
+    if(!workoutExercises) {
+        throw notFoundError();
+    }
+
+    const workout = await workoutsRepository.getWorkoutById(workoutId);
+
+    if(!workout) {
+        throw notFoundError();
+    }
+
+    if(userId !== workout.userId) {
+        throw unauthorizedError();
+    }
+    
+    return workoutExercises;
+};
+
 const workoutsServices = {
     getWorkouts,
     getUserWorkouts,
     createWorkout,
     deleteWorkout,
     updateWorkout,
+    getUserWorkoutsExercisesById
 };
 
 export default workoutsServices;
