@@ -1,4 +1,5 @@
 import prisma from "../database/database.js";
+import { Prisma } from "@prisma/client";
 
 async function getWorkouts(){
     return await prisma.workouts.findMany();
@@ -71,6 +72,12 @@ async function getUserWorkoutsExercisesById(workoutId: number, userId: number) {
     });
 };
 
+async function createWorkoutExercise(data: Prisma.workoutExercisesUncheckedCreateInput) {
+    return prisma.workoutExercises.create({
+        data,
+    });    
+};
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
@@ -78,7 +85,8 @@ const workoutsRepository = {
     createWorkout,
     deleteWorkout,
     updateWorkout,
-    getUserWorkoutsExercisesById
+    getUserWorkoutsExercisesById,
+    createWorkoutExercise
 };
 
 export default workoutsRepository;

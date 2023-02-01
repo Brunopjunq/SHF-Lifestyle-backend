@@ -98,7 +98,22 @@ export async function getUserWorkoutsExercise(req: AuthenticatedRequest, res: Re
         if (error.name === "UnauthorizedError") {
             return res.sendStatus(httpStatus.UNAUTHORIZED);
         }
-        
+
         return res.sendStatus(httpStatus.BAD_REQUEST); 
     }    
 }
+
+export async function postWorkoutExercise(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { workoutId } = req.params;
+        const numWorkoutId = Number(workoutId);
+        const { name, series, reps, weight_current, weight_previous} = req.body;
+
+        const workoutExercise = await workoutsServices.createWorkoutExercise({name,series,reps,weight_current,weight_previous, userId, workoutId: numWorkoutId});
+        return res.status(httpStatus.CREATED).send(workoutExercise)
+
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+};

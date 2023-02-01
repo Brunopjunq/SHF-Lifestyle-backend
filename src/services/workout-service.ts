@@ -1,3 +1,4 @@
+import { Prisma, workoutExercises } from '@prisma/client';
 import { notFoundError, unauthorizedError } from '../errors/index.js'
 import workoutsRepository from "../repositories/workout-repository.js";
 
@@ -75,13 +76,22 @@ async function getUserWorkoutsExercisesById(workoutId: number, userId: number) {
     return workoutExercises;
 };
 
+async function createWorkoutExercise(data: createWorkoutExerciseParams) {
+    const workoutExercise = await workoutsRepository.createWorkoutExercise(data);
+
+    return workoutExercise;
+}
+
+export type createWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "userId" | "weight_current" | "weight_previous" | "workoutId" >;
+
 const workoutsServices = {
     getWorkouts,
     getUserWorkouts,
     createWorkout,
     deleteWorkout,
     updateWorkout,
-    getUserWorkoutsExercisesById
+    getUserWorkoutsExercisesById,
+    createWorkoutExercise,
 };
 
 export default workoutsServices;
