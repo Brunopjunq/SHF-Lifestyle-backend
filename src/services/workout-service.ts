@@ -41,11 +41,27 @@ async function deleteWorkout(workoutId: number, userId: number) {
     return deleteworkout;
 }
 
+async function updateWorkout(workoutId: number, name: string, userId: number) {
+    const workout = await workoutsRepository.getWorkoutById(workoutId);
+
+    if(!workout) {
+        throw notFoundError();
+    }
+
+    if(userId !== workout.userId) {
+        throw unauthorizedError();
+    }
+    
+    const updatedWorkout = await workoutsRepository.updateWorkout(workoutId, name);
+    return updatedWorkout;
+}
+
 const workoutsServices = {
     getWorkouts,
     getUserWorkouts,
     createWorkout,
     deleteWorkout,
+    updateWorkout,
 };
 
 export default workoutsServices;

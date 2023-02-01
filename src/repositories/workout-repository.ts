@@ -52,12 +52,23 @@ async function deleteWorkout(workoutId: number) {
     return prisma.$transaction([workoutExercises,workout]);
 };
 
+async function updateWorkout(workoutId: number, name: string) {
+    return await prisma.workouts.update({
+        where: {
+            id: workoutId,
+        }, data: {
+            name: name
+        },
+    });
+};
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
     getWorkoutById,
     createWorkout,
     deleteWorkout,
+    updateWorkout,
 };
 
 export default workoutsRepository;
