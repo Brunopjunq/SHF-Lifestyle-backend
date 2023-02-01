@@ -4,7 +4,8 @@ import authValidation from "../middlewares/validate-auth.js";
 
 const userRouter = Router();
 
-userRouter.post('/signUp', authValidation.validateSingUp , createUser);
-userRouter.post('/', authValidation.validateLogin, signIn)
+userRouter
+.post('/signUp', authValidation.validateSingUp , createUser)
+.post('/', authValidation.validateLogin, signIn);
 
 export default userRouter;

@@ -10,8 +10,18 @@ async function getWorkouts() {
     return workouts;
 }
 
+async function getUserWorkouts(userId: number) {
+    const workouts = await workoutsRepository.getUserWorkouts(userId);
+    if(!workouts) {
+        throw notFoundError();
+    }
+
+    return workouts;
+}
+
 const workoutsServices = {
-    getWorkouts
+    getWorkouts,
+    getUserWorkouts,
 };
 
 export default workoutsServices;

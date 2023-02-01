@@ -4,13 +4,12 @@ import router from './routers/index.js';
 
 const server = express();
 
-server.use(cors());
-server.use(express.json());
-
-server.use(router);
-
-server.get('/status', (req,res) => {
-    res.send('ok')
+server
+.use(cors())
+.use(express.json())
+.use(router)
+.get('/status', (req,res) => {
+    res.send('Ok')
 });
 
 server.listen(4000, () => {

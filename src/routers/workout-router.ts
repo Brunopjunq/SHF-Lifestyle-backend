@@ -1,8 +1,11 @@
 import { Router } from "express";
-import { getWorkouts } from "../controllers/workout-controller.js";
+import { getUserWorkouts, getWorkouts } from "../controllers/workout-controller.js";
+import { validateToken } from "../middlewares/validate-token.js";
 
 const workoutRouter = Router();
 
-workoutRouter.get('/workouts', getWorkouts);
+workoutRouter.all("/*", validateToken)
+.get("/all", getWorkouts)
+.get("/", getUserWorkouts);
 
 export default workoutRouter;

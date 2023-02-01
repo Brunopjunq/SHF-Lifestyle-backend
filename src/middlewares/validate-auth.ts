@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 import authSchema from "../schemas/auth-schemas.js";
 import { Request, Response } from "express";
 
-function validateSingUp(req: Request,res: Response, next) {
+function validateSingUp(req: Request,res: Response, next: NextFunction) {
     const newUser = req.body;
     const validation = authSchema.userSchema.validate(newUser, {abortEarly: false});
 
@@ -15,7 +15,7 @@ function validateSingUp(req: Request,res: Response, next) {
     next();
 };
 
-function validateLogin(req: Request,res: Response, next ) {
+function validateLogin(req: Request,res: Response, next: NextFunction ) {
     const login = req.body;
     const validation = authSchema.loginSchema.validate(login, {abortEarly: false});
 

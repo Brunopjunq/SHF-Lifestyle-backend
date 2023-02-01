@@ -4,7 +4,8 @@ import workoutRouter from "./workout-router.js";
 
 const router = Router();
 
-router.use(workoutRouter);
-router.use(userRouter);
+router
+.use("/auth", userRouter)
+.use("/workout", workoutRouter)
 
 export default router;
