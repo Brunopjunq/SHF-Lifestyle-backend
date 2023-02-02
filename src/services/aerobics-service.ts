@@ -11,6 +11,15 @@ async function getUserAerobics(userId: number) {
     return aerobics;
 }
 
+async function getUserAerobicsByDay(userId: number, date: string) {
+    const aerobics = await aerobicsRepository.getUserAerobicsByDay(userId, date);
+    if(!aerobics) {
+        throw notFoundError();
+    }    
+
+    return aerobics;
+}
+
 async function createAerobics(data: createAerobicsParams) {
     const aerobics = await aerobicsRepository.createAerobics(data);
     
@@ -47,6 +56,7 @@ async function deleteAerobics(exerciseId: number, userId: number) {
 
 const aerobicsService = {
     getUserAerobics,
+    getUserAerobicsByDay,
     createAerobics,
     updateAerobics,
     deleteAerobics,

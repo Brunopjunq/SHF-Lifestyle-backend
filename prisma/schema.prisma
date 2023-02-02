@@ -11,7 +11,7 @@ model aerobicsExercises {
   id        Int       @id @default(autoincrement())
   name      String
   userId    Int?
-  date      DateTime  @db.Date
+  date      String
   time      Int?
   calories  Int?
   createdAt DateTime? @default(now()) @db.Timestamp(6)
@@ -79,7 +79,7 @@ model users {
 model waterCount {
   id        Int       @id @default(autoincrement())
   userId    Int?
-  date      DateTime  @db.Date
+  date      String
   quantity  Int?
   createdAt DateTime? @default(now()) @db.Timestamp(6)
   users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)

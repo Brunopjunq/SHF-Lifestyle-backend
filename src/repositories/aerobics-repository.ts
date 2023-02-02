@@ -10,6 +10,14 @@ async function getUserAerobics(userId: number) {
     });
 };
 
+async function getUserAerobicsByDay(userId: number, date: string) {
+    return await prisma.aerobicsExercises.findMany({
+        where: {
+            date,      
+        },
+    })    
+};
+
 async function getAerobicsById(id: number) {
     return await prisma.aerobicsExercises.findFirst({
         where: {
@@ -42,6 +50,7 @@ async function deleteAerobics(exerciseId: number) {
 
 const aerobicsRepository = {
     getUserAerobics,
+    getUserAerobicsByDay,
     getAerobicsById,
     createAerobics,
     updateAerobics,
