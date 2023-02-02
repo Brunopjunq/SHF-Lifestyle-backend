@@ -98,17 +98,17 @@ async function updateWorkoutExercise(data: updateWorkoutExerciseParams, exercise
 }
 
 async function deleteWorkoutExercise(exerciseId: number, userId: number) {
-    const aerobic = await workoutsRepository.getWorkoutExerciseById(exerciseId);
+    const workoutExercise = await workoutsRepository.getWorkoutExerciseById(exerciseId);
     
-    if(!aerobic) {
+    if(!workoutExercise) {
         throw notFoundError();
     }
-    if(userId !== aerobic.userId) {
+    if(userId !== workoutExercise.userId) {
         throw unauthorizedError();
     }
 
-    const deletedAerobic = await workoutsRepository.deleteWorkoutExercise(exerciseId);
-    return deletedAerobic;
+    const deletedWorkoutExercise = await workoutsRepository.deleteWorkoutExercise(exerciseId);
+    return deletedWorkoutExercise;
 };
 
 export type createWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "userId" | "weight_current" | "weight_previous" | "workoutId" >;

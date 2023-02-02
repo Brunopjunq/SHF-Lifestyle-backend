@@ -145,8 +145,8 @@ export async function deleteWorkoutExercise(req: AuthenticatedRequest, res: Resp
         const numExerciseId = Number(exerciseId);
         const { userId } = req;
 
-        const aerobic = await workoutsServices.deleteWorkoutExercise(numExerciseId,userId);
-        return res.status(httpStatus.OK).send(aerobic);
+        const workoutExercise = await workoutsServices.deleteWorkoutExercise(numExerciseId,userId);
+        return res.status(httpStatus.OK).send(workoutExercise);
     } catch (error) {
         if (error.name === "NotFoundError") {
             return res.sendStatus(httpStatus.NOT_FOUND);

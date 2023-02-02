@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUserAerobics, postAerobics, updateAerobics } from "../controllers/aerobics-controller.js";
+import { deleteAerobics, getUserAerobics, postAerobics, updateAerobics } from "../controllers/aerobics-controller.js";
 import aerobicValidation from "../middlewares/validate-aerobics.js";
 import { validateToken } from "../middlewares/validate-token.js";
 
@@ -9,6 +9,7 @@ aerobicsRouter
 .all("/*", validateToken)
 .get("/", getUserAerobics)
 .post("/:date", aerobicValidation.validateAerobic, postAerobics)
-.put("/:date/:exerciseId", updateAerobics);
+.put("/:date/:exerciseId", updateAerobics)
+.delete("/:exerciseId", deleteAerobics);
 
 export default aerobicsRouter;

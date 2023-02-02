@@ -110,7 +110,7 @@ async function updateWorkoutExercise(data: Prisma.workoutExercisesUncheckedCreat
     return prisma.$transaction([updateWeight, updateExercise]);
 }
 
-async function deleteWorkoutExercise(exerciseId) {
+async function deleteWorkoutExercise(exerciseId: number) {
     return prisma.workoutExercises.delete({
         where: {
             id: exerciseId

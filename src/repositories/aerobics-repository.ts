@@ -32,11 +32,20 @@ async function updateAerobics(data: updateAerobicsParams, exerciseId: number) {
     });    
 };
 
+async function deleteAerobics(exerciseId: number) {
+    return prisma.aerobicsExercises.delete({
+        where: {
+            id: exerciseId,
+        }
+    })
+};
+
 const aerobicsRepository = {
     getUserAerobics,
     getAerobicsById,
     createAerobics,
     updateAerobics,
+    deleteAerobics,
 };
 
 export default aerobicsRepository;

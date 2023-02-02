@@ -31,10 +31,25 @@ async function updateAerobics(data: updateAerobicsParams, exerciseId:number, use
     return updatedAerobic;
 }
 
+async function deleteAerobics(exerciseId: number, userId: number) {
+    const aerobic = await aerobicsRepository.getAerobicsById(exerciseId);
+    
+    if(!aerobic) {
+        throw notFoundError();
+    }
+    if(userId !== aerobic.userId) {
+        throw unauthorizedError();
+    }
+
+    const deletedAerobic = await aerobicsRepository.deleteAerobics(exerciseId);
+    return deletedAerobic;
+}
+
 const aerobicsService = {
     getUserAerobics,
     createAerobics,
     updateAerobics,
+    deleteAerobics,
 };
 
 export type createAerobicsParams = Pick<aerobicsExercises, "name" | "userId" | "calories" | "time" | "date">;
