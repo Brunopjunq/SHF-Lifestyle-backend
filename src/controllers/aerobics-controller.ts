@@ -16,3 +16,17 @@ export async function getUserAerobics(req: AuthenticatedRequest, res: Response) 
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
 }
+
+export async function postAerobics(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { date } = req.params;
+        const newDate = new Date(date);
+        const {name,calories,time} = req.body;
+
+        const aerobic = await aerobicsService.createAerobics({name,userId,calories,date: newDate, time});
+        return res.status(httpStatus.CREATED).send(aerobic);
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+}
