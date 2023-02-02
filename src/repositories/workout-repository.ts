@@ -110,6 +110,14 @@ async function updateWorkoutExercise(data: Prisma.workoutExercisesUncheckedCreat
     return prisma.$transaction([updateWeight, updateExercise]);
 }
 
+async function deleteWorkoutExercise(exerciseId) {
+    return prisma.workoutExercises.delete({
+        where: {
+            id: exerciseId
+        },
+    });    
+};
+
 const workoutsRepository = {
     getWorkouts,
     getUserWorkouts,
@@ -121,6 +129,7 @@ const workoutsRepository = {
     getUserWorkoutsExercisesById,
     createWorkoutExercise,
     updateWorkoutExercise,
+    deleteWorkoutExercise
 };
 
 export default workoutsRepository;

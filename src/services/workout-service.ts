@@ -32,7 +32,6 @@ async function deleteWorkout(workoutId: number, userId: number) {
     if(!workout) {
         throw notFoundError();
     }
-
     if(userId !== workout.userId) {
         throw unauthorizedError();
     }
@@ -98,6 +97,20 @@ async function updateWorkoutExercise(data: updateWorkoutExerciseParams, exercise
     return workoutExercise;
 }
 
+async function deleteWorkoutExercise(exerciseId: number, userId: number) {
+    const aerobic = await workoutsRepository.getWorkoutExerciseById(exerciseId);
+    
+    if(!aerobic) {
+        throw notFoundError();
+    }
+    if(userId !== aerobic.userId) {
+        throw unauthorizedError();
+    }
+
+    const deletedAerobic = await workoutsRepository.deleteWorkoutExercise(exerciseId);
+    return deletedAerobic;
+};
+
 export type createWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "userId" | "weight_current" | "weight_previous" | "workoutId" >;
 
 export type updateWorkoutExerciseParams = Pick<workoutExercises, "name" | "reps" | "series" | "weight_current" >;
@@ -111,6 +124,7 @@ const workoutsServices = {
     getUserWorkoutsExercisesById,
     createWorkoutExercise,
     updateWorkoutExercise,
+    deleteWorkoutExercise,
 };
 
 export default workoutsServices;
