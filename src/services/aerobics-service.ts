@@ -1,5 +1,5 @@
 import { aerobicsExercises } from "@prisma/client";
-import { notFoundError } from "../errors/index.js";
+import { notFoundError, unauthorizedError } from "../errors/index.js";
 import aerobicsRepository from "../repositories/aerobics-repository.js";
 
 async function getUserAerobics(userId: number) {
@@ -17,11 +17,28 @@ async function createAerobics(data: createAerobicsParams) {
     return aerobics;
 }
 
+async function updateAerobics(data: updateAerobicsParams, exerciseId:number, userId: number) {
+    const aerobic = await aerobicsRepository.getAerobicsById(exerciseId);
+    
+    if(!aerobic) {
+        throw notFoundError();
+    }
+    if(userId !== aerobic.userId) {
+        throw unauthorizedError();
+    }
+
+    const updatedAerobic = await aerobicsRepository.updateAerobics(data, exerciseId);
+    return updatedAerobic;
+}
+
 const aerobicsService = {
     getUserAerobics,
     createAerobics,
+    updateAerobics,
 };
 
 export type createAerobicsParams = Pick<aerobicsExercises, "name" | "userId" | "calories" | "time" | "date">;
+
+export type updateAerobicsParams = Pick<aerobicsExercises, "name" | "calories" | "time" | "date">;
 
 export default aerobicsService;
