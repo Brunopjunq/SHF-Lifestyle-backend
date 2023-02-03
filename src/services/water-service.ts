@@ -1,4 +1,4 @@
-import { duplicatedWaterCountError, notFoundError } from "../errors/index.js";
+import { cannotDecreaseError, duplicatedWaterCountError, notFoundError } from "../errors/index.js";
 import waterRepository from "../repositories/water-repository.js";
 
 async function getWaterCount(userId: number) {
@@ -43,14 +43,22 @@ async function updateWaterCount(userId: number) {
 }
 
 async function increaseWaterCount(userId: number, date: string) {
-    const water = await waterRepository.increaseWaterCount(userId,date);
+    const updatedWaterCount = await waterRepository.increaseWaterCount(userId,date);
 
-    if(!water) {
-        throw notFoundError();
-    }
-
-    return water;
+    return updatedWaterCount;
     
+};
+
+async function decreaseWaterCount(userId: number, date: string) {
+    const userWater = await waterRepository.getWaterCount(userId);
+    const userDayWater = userWater.find(el => el.date == date);
+    if(userDayWater.quantity === 0) {
+        throw cannotDecreaseError();
+    };
+
+    const updatedWaterCount = await waterRepository.decreaseWaterCount(userId,date);
+
+    return updatedWaterCount;
 }
 
 const waterService = {
@@ -58,7 +66,8 @@ const waterService = {
     getWaterCountByDay,
     createWaterCount,
     updateWaterCount,
-    increaseWaterCount
+    increaseWaterCount,
+    decreaseWaterCount
 };
 
 export default waterService;

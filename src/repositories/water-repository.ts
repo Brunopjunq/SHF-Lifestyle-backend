@@ -54,12 +54,29 @@ async function increaseWaterCount(userId: number, date: string) {
     
 };
 
+async function decreaseWaterCount(userId: number, date: string) {
+    const usersWater = await getWaterCount(userId);
+    const userDayWater = usersWater.find(el => el.date == date);
+
+    return prisma.waterCount.update({
+        where: {
+            id: userDayWater.id
+        }, data: {
+            quantity: {
+                decrement: 1
+            }
+        }
+    })
+    
+};
+
 const waterRepository = {
     getWaterCount,
     getWaterCountByDay,
     createWaterCount,
     updateWaterCount,
-    increaseWaterCount
+    increaseWaterCount,
+    decreaseWaterCount
 };
 
 export default waterRepository;

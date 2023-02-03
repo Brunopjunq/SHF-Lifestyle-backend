@@ -71,8 +71,20 @@ export async function increaseWaterCount(req: AuthenticatedRequest, res: Respons
         const waterCount = await waterService.increaseWaterCount(userId,date);
         return res.status(httpStatus.OK).send(waterCount);
     } catch (error) {
-        if (error.name === "NotFoundError") {
-            return res.sendStatus(httpStatus.NOT_FOUND);
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+};
+
+export async function decreaseWaterCount(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { date } = req.params;
+
+        const waterCount = await waterService.decreaseWaterCount(userId,date);
+        return res.status(httpStatus.OK).send(waterCount);
+    } catch (error) {
+        if (error.name === "CannotDecreaseError") {
+            return res.sendStatus(httpStatus.FORBIDDEN);
           }
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
