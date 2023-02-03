@@ -31,10 +31,34 @@ async function createWaterCount(userId: number, date: string, quantity: number) 
     return createdwater;
 }
 
+async function updateWaterCount(userId: number) {
+    const checkWater = await waterRepository.getWaterCount(userId);
+    const check1 = checkWater.find(el => el.date == '2023-02-02')
+    if(check1.quantity === 0) {
+        throw duplicatedWaterCountError();
+    }
+    
+    const updatedWaterCount = await waterRepository.updateWaterCount(userId);
+    return updatedWaterCount;    
+}
+
+async function increaseWaterCount(userId: number, date: string) {
+    const water = await waterRepository.increaseWaterCount(userId,date);
+
+    if(!water) {
+        throw notFoundError();
+    }
+
+    return water;
+    
+}
+
 const waterService = {
     getWaterCount,
     getWaterCountByDay,
     createWaterCount,
+    updateWaterCount,
+    increaseWaterCount
 };
 
 export default waterService;

@@ -48,3 +48,32 @@ export async function postWaterCount(req: AuthenticatedRequest, res: Response) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
 };
+
+export async function updatedWaterCount(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+
+        const waterCount = await waterService.updateWaterCount(userId);
+        return res.status(httpStatus.OK).send(waterCount);
+    } catch (error) {
+        if (error.name === "DuplicatedWaterCountError") {
+            return res.sendStatus(httpStatus.CONFLICT);
+          }
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+}
+
+export async function increaseWaterCount(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { date } = req.params;
+
+        const waterCount = await waterService.increaseWaterCount(userId,date);
+        return res.status(httpStatus.OK).send(waterCount);
+    } catch (error) {
+        if (error.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND);
+          }
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+};
