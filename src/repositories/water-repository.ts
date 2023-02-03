@@ -16,9 +16,20 @@ async function getWaterCountByDay(date: string) {
     })    
 };
 
+async function createWaterCount(userId: number, date: string, quantity: number) {
+    return prisma.waterCount.create({
+        data: {
+            date,
+            quantity,
+            userId,
+        },
+    })    
+};
+
 const waterRepository = {
     getWaterCount,
-    getWaterCountByDay
+    getWaterCountByDay,
+    createWaterCount
 };
 
 export default waterRepository;

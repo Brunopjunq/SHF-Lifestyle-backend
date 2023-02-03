@@ -32,3 +32,19 @@ export async function getWaterCountByDay(req: AuthenticatedRequest, res: Respons
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
 }
+
+export async function postWaterCount(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } =req;
+        const { date } = req.params;
+        const { quantity } = req.body;
+
+        const waterCount = await waterService.createWaterCount(userId,date,quantity);
+        return res.status(httpStatus.CREATED).send(waterCount);
+    } catch (error) {
+        if (error.name === "DuplicatedWaterCountError") {
+            return res.sendStatus(httpStatus.CONFLICT);
+          }
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+};
