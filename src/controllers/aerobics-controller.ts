@@ -22,7 +22,7 @@ export async function getUserAerobicsByDay(req: AuthenticatedRequest, res: Respo
         const { userId } = req;
         const { date } = req.params;
         
-        const aerobics = await aerobicsService.getUserAerobicsByDay(userId, date)
+        const aerobics = await aerobicsService.getUserAerobicsByDay(date)
         
         const userAerobics = aerobics.filter(el => el.userId === userId)
         return res.status(httpStatus.OK).send(userAerobics);

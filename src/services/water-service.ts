@@ -10,8 +10,18 @@ async function getWaterCount(userId: number) {
     return water
 };
 
+async function getWaterCountByDay(date: string) {
+    const water = await waterRepository.getWaterCountByDay(date);
+    if(!water) {
+        throw notFoundError();
+    }
+
+    return water;
+}
+
 const waterService = {
     getWaterCount,
+    getWaterCountByDay,
 };
 
 export default waterService;

@@ -10,7 +10,7 @@ async function getUserAerobics(userId: number) {
     });
 };
 
-async function getUserAerobicsByDay(userId: number, date: string) {
+async function getUserAerobicsByDay(date: string) {
     return await prisma.aerobicsExercises.findMany({
         where: {
             date,      

@@ -11,8 +11,8 @@ async function getUserAerobics(userId: number) {
     return aerobics;
 }
 
-async function getUserAerobicsByDay(userId: number, date: string) {
-    const aerobics = await aerobicsRepository.getUserAerobicsByDay(userId, date);
+async function getUserAerobicsByDay(date: string) {
+    const aerobics = await aerobicsRepository.getUserAerobicsByDay(date);
     if(!aerobics) {
         throw notFoundError();
     }    

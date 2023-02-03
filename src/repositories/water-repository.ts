@@ -8,8 +8,17 @@ async function getWaterCount(userId: number) {
     })    
 };
 
+async function getWaterCountByDay(date: string) {
+    return prisma.waterCount.findMany({
+        where: {
+            date,
+        },
+    })    
+};
+
 const waterRepository = {
     getWaterCount,
+    getWaterCountByDay
 };
 
 export default waterRepository;
