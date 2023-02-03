@@ -2,7 +2,6 @@ import { AuthenticatedRequest } from "../middlewares/validate-token.js";
 import { Response } from "express";
 import httpStatus from "http-status";
 import aerobicsService from "../services/aerobics-service.js";
-import { date } from "joi";
 
 export async function getUserAerobics(req: AuthenticatedRequest, res: Response) {
     try {
@@ -16,7 +15,7 @@ export async function getUserAerobics(req: AuthenticatedRequest, res: Response) 
           }
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
-}
+};
 
 export async function getUserAerobicsByDay(req: AuthenticatedRequest, res: Response) {
     try {
