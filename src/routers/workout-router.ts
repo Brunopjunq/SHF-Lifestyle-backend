@@ -12,7 +12,7 @@ workoutRouter.all("/*", validateToken)
 .delete("/:workoutId", deleteWorkout)
 .put("/:workoutId", updateWorkout)
 .get("/:workoutId", getUserWorkoutsExercise)
-.post("/:workoutId", postWorkoutExercise)
+.post("/:workoutId", workoutsValidation.validateWorkoutExercise, postWorkoutExercise)
 .put("/exercise/:exerciseId", updateWorkoutExercise)
 .delete("/exercise/:exerciseId", deleteWorkoutExercise);
 

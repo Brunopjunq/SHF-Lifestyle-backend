@@ -14,9 +14,23 @@ function validateWorkout(req: Request, res: Response, next: NextFunction) {
     next();
 }
 
+function validateWorkoutExercise(req: Request, res: Response, next: NextFunction) {
+    const newExercise = req.body;
+    const validation = workoutsSchema.workoutExerciseSchema.validate(newExercise, {abortEarly: false});
+
+    if(validation.error) {
+        const errorMessage = validation.error.details.map(detail => detail.message);
+        return res.status(httpStatus.UNPROCESSABLE_ENTITY).send(errorMessage);
+    }
+
+    next();
+
+}
+
 
 const workoutsValidation = {
-    validateWorkout
+    validateWorkout,
+    validateWorkoutExercise
 };
 
 export default workoutsValidation;
