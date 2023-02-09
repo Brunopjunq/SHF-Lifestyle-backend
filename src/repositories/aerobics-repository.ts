@@ -6,7 +6,9 @@ async function getUserAerobics(userId: number) {
     return await prisma.aerobicsExercises.findMany({
         where: {
             userId,
-        },
+        }, orderBy: {
+            date: 'desc'
+        }
     });
 };
 
