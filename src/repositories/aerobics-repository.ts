@@ -14,7 +14,9 @@ async function getUserAerobicsByDay(date: string) {
     return await prisma.aerobicsExercises.findMany({
         where: {
             date,      
-        },
+        }, orderBy: {
+            createdAt: 'desc'
+        }
     })    
 };
 
