@@ -31,3 +31,23 @@ export async function postWeight(req: AuthenticatedRequest, res: Response) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }    
 };
+
+export async function deleteWeight(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { weightId } = req.params;
+        const numWeightId = Number(weightId)
+        const { userId } = req;
+
+        const deletedWeight = await weightService.deleteWeight(numWeightId, userId);
+        return res.status(httpStatus.OK).send(deletedWeight);
+    } catch (error) {
+        if (error.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND);
+        }
+        if (error.name === "UnauthorizedError") {
+            return res.sendStatus(httpStatus.UNAUTHORIZED);
+        }
+
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
+    }
+}

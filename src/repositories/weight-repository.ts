@@ -10,6 +10,14 @@ async function getAllWeights(userId: number) {
     })    
 };
 
+async function getWeightById(id: number) {
+    return prisma.weightControl.findFirst({
+        where: {
+            id,
+        }
+    })    
+};
+
 async function createWeight(userId: number, date: Date, weight: number) {
     return prisma.weightControl.create({
         data: {
@@ -20,9 +28,20 @@ async function createWeight(userId: number, date: Date, weight: number) {
     })
 };
 
+async function deleteWeight(weightId: number) {
+    return prisma.weightControl.delete({
+        where: {
+            id: weightId,
+        }
+    })
+};
+
+
 const weightRepository = {
     getAllWeights,
-    createWeight
+    getWeightById,
+    createWeight,
+    deleteWeight,
 };
 
 export default weightRepository;

@@ -1,4 +1,4 @@
-import { notFoundError } from "../errors/index.js";
+import { notFoundError, unauthorizedError } from "../errors/index.js";
 import weightRepository from "../repositories/weight-repository.js";
 
 async function getAllWeights(userId: number) {
@@ -14,9 +14,25 @@ async function createWeight(userId: number, date: Date, weight: number) {
     return createdWeight;    
 }
 
+async function deleteWeight(weightId: number, userId: number) {
+    const weight = await weightRepository.getWeightById(weightId)
+    
+    if(!weight) {
+        throw notFoundError()
+    }
+
+    if(userId !== weight.userId) {
+        throw unauthorizedError();
+    }
+
+    const deletedWeight = await weightRepository.deleteWeight(weightId);
+    return deletedWeight;
+}
+
 const weightService = {
     getAllWeights,
     createWeight,
+    deleteWeight
 };
 
 export default weightService;
