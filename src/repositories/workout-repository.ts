@@ -76,7 +76,9 @@ async function getUserWorkoutsExercisesById(workoutId: number, userId: number) {
         where: {
             userId,
             workoutId
-        },
+        }, orderBy: {
+            createdAt: 'asc'
+        }
     });
 };
 

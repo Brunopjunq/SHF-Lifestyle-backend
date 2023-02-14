@@ -72,6 +72,7 @@ model users {
   meals             meals[]
   sessions          sessions[]
   waterCount        waterCount[]
+  weightControl     weightControl[]
   workoutExercises  workoutExercises[]
   workouts          workouts[]
 }
@@ -106,4 +107,13 @@ model workouts {
   createdAt        DateTime?          @default(now()) @db.Timestamp(6)
   workoutExercises workoutExercises[]
   users            users?             @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model weightControl {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  date      DateTime  @db.Date
+  weight    Decimal   @db.Decimal(5, 2)
+  createdAt DateTime? @default(now()) @db.Timestamp(6)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
