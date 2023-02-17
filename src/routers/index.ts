@@ -1,6 +1,7 @@
 import { Router } from "express";
 import aerobicsRouter from "./aerobics-router.js";
 import userRouter from "./auth-router.js";
+import foodsRouter from "./foods-router.js";
 import mealsRouter from "./meals-router.js";
 import waterRouter from "./water-router.js";
 import weightRouter from "./weight-router.js";
@@ -14,6 +15,7 @@ router
 .use("/aerobics", aerobicsRouter)
 .use("/water", waterRouter)
 .use("/weight", weightRouter)
-.use("/meals", mealsRouter);
+.use("/meals", mealsRouter)
+.use("/foods", foodsRouter);
 
 export default router;
