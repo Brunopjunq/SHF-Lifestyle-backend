@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMealsByDate, postFoodByMeal, postMeal } from "../controllers/meals-controller.js";
+import { deleteFoodByMeal, getMealsByDate, postFoodByMeal, postMeal } from "../controllers/meals-controller.js";
 import mealsValidation from "../middlewares/validate-meal.js";
 import { validateToken } from "../middlewares/validate-token.js";
 
@@ -9,6 +9,7 @@ mealsRouter
 .all("/*", validateToken)
 .get("/:date", getMealsByDate)
 .post("/:date", mealsValidation.validateMeal, postMeal)
-.post("/:date/:mealId", postFoodByMeal);
+.post("/:date/:mealId", postFoodByMeal)
+.delete("/foodByMeal", deleteFoodByMeal);
 
 export default mealsRouter;

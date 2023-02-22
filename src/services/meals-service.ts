@@ -1,4 +1,4 @@
-import { notFoundError, duplicatedMealError } from "../errors/index.js";
+import { notFoundError, duplicatedMealError, unauthorizedError } from "../errors/index.js";
 import mealsRepository from "../repositories/meals-repository.js";
 
 async function getMealsByDate(date: Date) {
@@ -30,10 +30,25 @@ async function createFoodByMeal(userId: number, foodId: number, mealId: number, 
     return createdFood;    
 }
 
+async function deleteFoodByMeal(id: number, userId: number) {
+    const foodByMeal = await mealsRepository.getFoodByMealById(id)
+
+    if(!foodByMeal) {
+        throw notFoundError();
+    }
+    if(userId !== foodByMeal.userId) {
+        throw unauthorizedError();
+    }
+
+    const deletedFoodByMeal = await mealsRepository.deleteFoodByMeal(id);
+    return deletedFoodByMeal;
+}
+
 const mealsService = {
     getMealsByDate,
     createMeal,
-    createFoodByMeal
+    createFoodByMeal,
+    deleteFoodByMeal
 };
 
 export default mealsService;

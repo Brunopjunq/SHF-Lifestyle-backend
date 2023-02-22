@@ -53,3 +53,22 @@ export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
     }
 
 };
+
+export async function deleteFoodByMeal(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { id } = req.body;
+        const { userId } = req;
+
+        const foodByMeal = await mealsService.deleteFoodByMeal(id, userId);
+        return res.status(httpStatus.OK).send(foodByMeal);
+    } catch (error) {
+        if (error.name === "NotFoundError") {
+            return res.sendStatus(httpStatus.NOT_FOUND);
+        }
+        if (error.name === "UnauthorizedError") {
+            return res.sendStatus(httpStatus.UNAUTHORIZED);
+        }
+
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
+    }    
+}

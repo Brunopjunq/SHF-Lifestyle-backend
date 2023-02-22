@@ -5,8 +5,12 @@ async function getMealsByDate(date: Date) {
         where: {
             date,
         }, include: {
-            foods_meals: true
-        }
+            foods_meals: {
+                include: {
+                    foods: true,
+                }
+            }
+        },
     })
 };
 
@@ -31,10 +35,28 @@ async function createFoodByMeal(userId: number, foodId: number, mealId: number, 
     })    
 };
 
+async function getFoodByMealById(id: number) {
+    return prisma.foods_meals.findFirst({
+        where: {
+            id,
+        },
+    })    
+};
+
+async function deleteFoodByMeal(id: number) {
+    return prisma.foods_meals.delete({
+        where: {
+            id,
+        },
+    })    
+};
+
 const mealsRepository = {
     getMealsByDate,
     createMeal,
-    createFoodByMeal
+    createFoodByMeal,
+    getFoodByMealById,
+    deleteFoodByMeal,
 };
 
 export default mealsRepository;
