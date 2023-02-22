@@ -20,8 +20,11 @@ export async function getFoodByName(req: AuthenticatedRequest, res: Response) {
 export async function postFood(req: AuthenticatedRequest, res: Response) {
     try {
         const {name, quantity, calories, protein, carbohydrate, lipid} = req.body;
-
-        const food = await foodsService.createFood({name,quantity,calories,protein,carbohydrate,lipid});
+        const newCalories = calories / (quantity / 100);
+        const newProtein = protein / (quantity / 100);
+        const newCarbohydrate = carbohydrate / (quantity / 100);
+        const newLipid = lipid / (quantity / 100);
+        const food = await foodsService.createFood({name, quantity: 100, calories: newCalories, protein: newProtein, carbohydrate: newCarbohydrate, lipid: newLipid});
         return res.status(httpStatus.CREATED).send(food);
     } catch (error) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
