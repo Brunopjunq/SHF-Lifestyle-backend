@@ -25,9 +25,15 @@ async function createMeal(userId: number, name: string, date: Date) {
     return createdMeal;
 }
 
+async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date) {
+    const createdFood = await mealsRepository.createFoodByMeal(userId, foodId, mealId, date);
+    return createdFood;    
+}
+
 const mealsService = {
     getMealsByDate,
     createMeal,
+    createFoodByMeal
 };
 
 export default mealsService;

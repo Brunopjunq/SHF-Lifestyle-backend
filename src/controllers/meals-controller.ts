@@ -36,3 +36,20 @@ export async function postMeal(req: AuthenticatedRequest, res: Response) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 }
+
+export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const { date } = req.params;
+        const { mealId } = req.params;
+        const newMealId = Number(mealId);
+        const { foodId } = req.body
+        const newDate = new Date(date)
+    
+        const foodByMeal = await mealsService.createFoodByMeal(userId, foodId, newMealId, newDate);
+        return res.status(httpStatus.CREATED).send(foodByMeal)
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+
+};
