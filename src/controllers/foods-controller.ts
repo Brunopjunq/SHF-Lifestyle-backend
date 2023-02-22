@@ -16,3 +16,14 @@ export async function getFoodByName(req: AuthenticatedRequest, res: Response) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 }
+
+export async function postFood(req: AuthenticatedRequest, res: Response) {
+    try {
+        const {name, quantity, calories, protein, carbohydrate, lipid} = req.body;
+
+        const food = await foodsService.createFood({name,quantity,calories,protein,carbohydrate,lipid});
+        return res.status(httpStatus.CREATED).send(food);
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST);
+    }    
+}
