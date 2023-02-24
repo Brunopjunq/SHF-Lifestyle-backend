@@ -2,8 +2,9 @@
     "compilerOptions": {
         "outDir": "dist",
         "esModuleInterop": true,
-        "module": "es6",
-        "moduleResolution": "node"
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true
     },
     "ts-node": {
         "esm": true

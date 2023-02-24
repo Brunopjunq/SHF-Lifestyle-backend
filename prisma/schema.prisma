@@ -35,6 +35,7 @@ model foods_meals {
   userId    Int?
   foodId    Int?
   mealId    Int?
+  quantity  Int?
   date      DateTime  @db.Date
   createdAt DateTime? @default(now()) @db.Timestamp(6)
   foods     foods?    @relation(fields: [foodId], references: [id], onDelete: NoAction, onUpdate: NoAction)

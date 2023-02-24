@@ -24,13 +24,14 @@ async function createMeal(userId: number, name: string, date: Date) {
     })    
 };
 
-async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date) {
+async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date, quantity: number) {
     return prisma.foods_meals.create({
         data: {
             userId,
             foodId,
             mealId,
             date,
+            quantity,
         },
     })    
 };

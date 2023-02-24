@@ -43,10 +43,10 @@ export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
         const { date } = req.params;
         const { mealId } = req.params;
         const newMealId = Number(mealId);
-        const { foodId } = req.body
+        const { foodId, quantity } = req.body
         const newDate = new Date(date)
     
-        const foodByMeal = await mealsService.createFoodByMeal(userId, foodId, newMealId, newDate);
+        const foodByMeal = await mealsService.createFoodByMeal(userId, foodId, newMealId, newDate, quantity);
         return res.status(httpStatus.CREATED).send(foodByMeal)
     } catch (error) {
         return res.sendStatus(httpStatus.BAD_REQUEST);

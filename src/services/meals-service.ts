@@ -25,8 +25,8 @@ async function createMeal(userId: number, name: string, date: Date) {
     return createdMeal;
 }
 
-async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date) {
-    const createdFood = await mealsRepository.createFoodByMeal(userId, foodId, mealId, date);
+async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date, quantity: number) {
+    const createdFood = await mealsRepository.createFoodByMeal(userId, foodId, mealId, date, quantity);
     return createdFood;    
 }
 

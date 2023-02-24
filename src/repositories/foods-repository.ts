@@ -1,5 +1,8 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../database/database.js";
+// import { createRequire } from "module";
+// const require = createRequire(import.meta.url);
+// const foodList = require("../data/foodList.json");
 
 async function getFoodByName(name: string) {
     return prisma.foods.findMany({
