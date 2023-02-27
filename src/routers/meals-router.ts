@@ -9,7 +9,7 @@ mealsRouter
 .all("/*", validateToken)
 .get("/:date", getMealsByDate)
 .post("/:date", mealsValidation.validateMeal, postMeal)
-.post("/:date/:mealId", postFoodByMeal)
-.delete("/foodByMeal", deleteFoodByMeal);
+.post("/:date/:mealId/:foodId", postFoodByMeal)
+.delete("/foodByMeal/:id", deleteFoodByMeal);
 
 export default mealsRouter;

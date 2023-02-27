@@ -42,11 +42,13 @@ export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
         const { userId } = req;
         const { date } = req.params;
         const { mealId } = req.params;
+        const { foodId } = req.params;
+        const newFoodId = Number(foodId);
         const newMealId = Number(mealId);
-        const { foodId, quantity } = req.body
+        const { quantity } = req.body;
         const newDate = new Date(date)
     
-        const foodByMeal = await mealsService.createFoodByMeal(userId, foodId, newMealId, newDate, quantity);
+        const foodByMeal = await mealsService.createFoodByMeal(userId, newFoodId, newMealId, newDate, quantity);
         return res.status(httpStatus.CREATED).send(foodByMeal)
     } catch (error) {
         return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -56,10 +58,11 @@ export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
 
 export async function deleteFoodByMeal(req: AuthenticatedRequest, res: Response) {
     try {
-        const { id } = req.body;
+        const { id } = req.params;
+        const NewId = Number(id);
         const { userId } = req;
 
-        const foodByMeal = await mealsService.deleteFoodByMeal(id, userId);
+        const foodByMeal = await mealsService.deleteFoodByMeal(NewId, userId);
         return res.status(httpStatus.OK).send(foodByMeal);
     } catch (error) {
         if (error.name === "NotFoundError") {
