@@ -1,4 +1,4 @@
-import { Prisma, workoutExercises } from '@prisma/client';
+import { workoutExercises } from '@prisma/client';
 import { notFoundError, unauthorizedError } from '../errors/index.js'
 import workoutsRepository from "../repositories/workout-repository.js";
 
