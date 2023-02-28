@@ -1,12 +1,12 @@
 import userRepository from "../repositories/user-repository.js";
 
-async function updateCaloriesGoal(caloriesGoal: number, userId: number) {
-    const updatedUser = await userRepository.updateCaloriesGoal(caloriesGoal,userId);
+async function updateUser(caloriesGoal: number,name: string, userId: number) {
+    const updatedUser = await userRepository.updateUser(caloriesGoal,name,userId);
     return updatedUser;
 };
 
 const userService = {
-    updateCaloriesGoal,
+    updateUser,
 };
 
 export default userService;

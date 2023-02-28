@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { updateCaloriesGoal } from "../controllers/user-controller.js";
+import { updateUser } from "../controllers/user-controller.js";
 import { validateToken } from "../middlewares/validate-token.js";
 
 const userRouter = Router();
 
 userRouter.all("/*", validateToken)
-.put('/calories', updateCaloriesGoal);
+.put('/', updateUser);
 
 export default userRouter;
