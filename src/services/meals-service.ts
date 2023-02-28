@@ -44,11 +44,17 @@ async function deleteFoodByMeal(id: number, userId: number) {
     return deletedFoodByMeal;
 }
 
+async function getCaloriesByDay(userId: number) {
+    const totalCalories = await mealsRepository.getCaloriesByDay(userId);
+    return totalCalories;    
+}
+
 const mealsService = {
     getMealsByDate,
     createMeal,
     createFoodByMeal,
-    deleteFoodByMeal
+    deleteFoodByMeal,
+    getCaloriesByDay
 };
 
 export default mealsService;

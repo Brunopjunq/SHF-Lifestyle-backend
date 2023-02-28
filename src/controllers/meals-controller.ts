@@ -75,3 +75,13 @@ export async function deleteFoodByMeal(req: AuthenticatedRequest, res: Response)
         return res.sendStatus(httpStatus.BAD_REQUEST); 
     }    
 }
+
+export async function getCaloriesByDay(req: AuthenticatedRequest, res: Response) {
+    try {
+        const { userId } = req;
+        const totalCalories = await mealsService.getCaloriesByDay(userId);
+        return res.status(httpStatus.OK).send(totalCalories);
+    } catch (error) {
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
+    }    
+}

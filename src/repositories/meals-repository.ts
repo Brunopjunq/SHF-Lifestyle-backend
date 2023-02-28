@@ -52,12 +52,21 @@ async function deleteFoodByMeal(id: number) {
     })    
 };
 
+async function getCaloriesByDay(userId: number) {
+    return prisma.$queryRaw`SELECT ((u.quantity * foods.calories)/100) as "Total", u.date  
+    FROM foods_meals u 
+    JOIN meals ON u."mealId"=meals.id 
+    JOIN foods ON u."foodId"=foods.id 
+    WHERE u."userId"=${userId}`
+};
+
 const mealsRepository = {
     getMealsByDate,
     createMeal,
     createFoodByMeal,
     getFoodByMealById,
     deleteFoodByMeal,
+    getCaloriesByDay
 };
 
 export default mealsRepository;
