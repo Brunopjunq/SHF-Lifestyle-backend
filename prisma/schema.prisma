@@ -35,9 +35,9 @@ model foods_meals {
   userId    Int?
   foodId    Int?
   mealId    Int?
-  quantity  Int?
   date      DateTime  @db.Date
   createdAt DateTime? @default(now()) @db.Timestamp(6)
+  quantity  Int?
   foods     foods?    @relation(fields: [foodId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   meals     meals?    @relation(fields: [mealId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -66,9 +66,10 @@ model users {
   name              String
   email             String              @unique
   password          String
-  calories_goal     Int?
   createdAt         DateTime?           @default(now()) @db.Timestamp(6)
   updatedAt         DateTime?           @default(now()) @db.Timestamp(6)
+  calories_goal     Int?
+  weight_goal       Decimal?            @db.Decimal(5, 2)
   aerobicsExercises aerobicsExercises[]
   foods_meals       foods_meals[]
   meals             meals[]
