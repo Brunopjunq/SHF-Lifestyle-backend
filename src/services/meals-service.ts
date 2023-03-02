@@ -9,19 +9,15 @@ async function getMealsByDate(date: Date) {
     return meals;
 };
 
-async function createMeal(userId: number, name: string, date: Date) {
+async function createMeals(userId: number, date: Date) {
     const mealByDay = await mealsRepository.getMealsByDate(date);
     const userMeals = mealByDay.filter(el => el.userId === userId);
 
-
     if(userMeals.length !== 0) {
-        const specificMeal = userMeals.filter(el => el.name === name);
-        if(specificMeal.length !== 0) {
-            throw duplicatedMealError();
-        }
+        throw duplicatedMealError(); 
     }
 
-    const createdMeal = await mealsRepository.createMeal(userId, name, date);
+    const createdMeal = await mealsRepository.createMeals(userId, date);
     return createdMeal;
 }
 
@@ -51,7 +47,7 @@ async function getCaloriesByDay(userId: number) {
 
 const mealsService = {
     getMealsByDate,
-    createMeal,
+    createMeals,
     createFoodByMeal,
     deleteFoodByMeal,
     getCaloriesByDay

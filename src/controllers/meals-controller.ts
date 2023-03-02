@@ -20,22 +20,21 @@ export async function getMealsByDate(req: AuthenticatedRequest, res: Response) {
     }    
 }
 
-export async function postMeal(req: AuthenticatedRequest, res: Response) {
+export async function postMeals(req: AuthenticatedRequest, res: Response) {
     try {
         const { userId } = req;
         const { date } = req.params;
-        const { name } = req.body;
-        const newDate = new Date(date)
-
-        const meal = await mealsService.createMeal(userId,name,newDate)
-        return res.status(httpStatus.CREATED).send(meal);
+        const newDate = new Date(date);
+    
+        const meals = await mealsService.createMeals(userId,newDate);
+        return res.status(httpStatus.CREATED).send(meals);
     } catch (error) {
         if (error.name === "DuplicatedMealError") {
             return res.sendStatus(httpStatus.CONFLICT);
           }
-        return res.sendStatus(httpStatus.BAD_REQUEST);
+        return res.sendStatus(httpStatus.BAD_REQUEST); 
     }
-}
+};
 
 export async function postFoodByMeal(req: AuthenticatedRequest, res: Response) {
     try {

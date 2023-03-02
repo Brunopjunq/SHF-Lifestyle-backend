@@ -14,15 +14,16 @@ async function getMealsByDate(date: Date) {
     })
 };
 
-async function createMeal(userId: number, name: string, date: Date) {
-    return prisma.meals.create({
-        data: {
-            userId,
-            name,
-            date,
-        },
-    })    
-};
+async function createMeals(userId: number, date: Date) {
+    return prisma.meals.createMany({
+        data: [
+            {name: 'Café da Manhã', userId: userId, date: date},
+            {name: 'Almoço', userId: userId, date: date},
+            {name: 'Lanche', userId: userId, date: date},
+            {name: 'Jantar', userId: userId, date: date},
+        ]
+    })
+}
 
 async function createFoodByMeal(userId: number, foodId: number, mealId: number, date: Date, quantity: number) {
     return prisma.foods_meals.create({
@@ -62,7 +63,7 @@ async function getCaloriesByDay(userId: number) {
 
 const mealsRepository = {
     getMealsByDate,
-    createMeal,
+    createMeals,
     createFoodByMeal,
     getFoodByMealById,
     deleteFoodByMeal,
