@@ -4,7 +4,9 @@ async function getWaterCount(userId: number) {
     return prisma.waterCount.findMany({
         where: {
             userId
-        },
+        }, orderBy: {
+            date: "desc"
+        }
     })    
 };
 

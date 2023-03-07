@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { deleteFoodByMeal, getCaloriesByDay, getMealsByDate, postFoodByMeal, postMeals } from "../controllers/meals-controller.js";
-import mealsValidation from "../middlewares/validate-meal.js";
 import { validateToken } from "../middlewares/validate-token.js";
 
 const mealsRouter = Router();
