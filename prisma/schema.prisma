@@ -69,6 +69,7 @@ model users {
   createdAt         DateTime?           @default(now()) @db.Timestamp(6)
   updatedAt         DateTime?           @default(now()) @db.Timestamp(6)
   calories_goal     Int?
+  water_goal         Int?
   weight_goal       Decimal?            @db.Decimal(5, 2)
   aerobicsExercises aerobicsExercises[]
   foods_meals       foods_meals[]
